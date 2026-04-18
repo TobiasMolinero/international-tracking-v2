@@ -6,7 +6,7 @@ import prettierConfig from "eslint-config-prettier";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  ...prettierConfig,
+  prettierConfig,
 
   {
     rules: {
