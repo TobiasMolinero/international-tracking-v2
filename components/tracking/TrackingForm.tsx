@@ -1,12 +1,8 @@
 'use client';
 
-import { useActionState } from 'react';
-import { searchTracking } from '@/app/tracking/actions';
 import { Button, Input } from '@/components/modul';
 
-export const TrackingForm = () => {
-  const [state, formAction, pending] = useActionState(searchTracking, null);
-
+export const TrackingForm = ({ formAction, pending }: any) => {
   return (
     <form action={formAction} className="flex flex-col gap-y-6 md:w-[50%] lg:w-[50%] w-full px-4">
       <div>
