@@ -69,7 +69,7 @@ export const steps = [
     key: 'PROCESO_CANINA',
     title: 'PROCESO DE ADUANA – UNIDAD CANINA',
     description: '',
-    icon: '/icons/rapido.png',
+    icon: '/icons/perro-policia.png',
   },
   {
     id: 9,
@@ -78,7 +78,7 @@ export const steps = [
     title: 'PROCESO DE DESAGRUPE',
     description:
       'El vehículo se encuentra en la etapa de desagrupe, donde se están separando y organizando las unidades para preparar las entregas.',
-    icon: '/icons/rapido.png',
+    icon: '/icons/desagrupe.png',
   },
   {
     id: 10,
@@ -87,6 +87,6 @@ export const steps = [
     title: 'PRÓXIMO A ENTREGA',
     description:
       'La agencia de envios se estara comunicando en los proximos dias para coordinar la entrega de tu vehiculo.',
-    icon: '/icons/rapido.png',
+    icon: '/icons/proximo-entrega.png',
   },
 ];
