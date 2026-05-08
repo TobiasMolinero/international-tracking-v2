@@ -5,6 +5,7 @@ import { searchTracking } from './tracking/actions';
 import { TrackingForm } from '@/components/tracking/TrackingForm';
 import TrackingStepper from '@/components/tracking/TrackingStepper';
 import { mapEstadoToStep } from '@/lib/trackingStatusMapper';
+import { TrackingData } from '@/components/tracking/TrackingData';
 
 export default function Home() {
   const [state, formAction, pending] = useActionState(searchTracking, null);
@@ -12,8 +13,10 @@ export default function Home() {
   return (
     <main className="flex flex-col flex-1 items-center mt-15 overflow-y-auto">
       <div className="flex flex-col items-center gap-y-6 w-full">
-        <h2 className="font-bold text-lg">Ingresa tu número de seguimiento</h2>
+        <h2 className="font-bold text-lg">Ingrese su número de seguimiento</h2>
         <TrackingForm formAction={formAction} pending={pending} />
+
+        {state?.shipment && <TrackingData shipmentData={state.shipment} />}
 
         {state?.shipment && <TrackingStepper estado={mapEstadoToStep(state.shipment.estado)} />}
 
