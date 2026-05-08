@@ -8,7 +8,7 @@ export const mapEstadoToStep = (estado: string): string => {
   const normalized = normalize(estado);
 
   const mapping: Record<string, string> = {
-    'EN DEPÓSITO ESPERANDO CONTENEDOR': 'DEPOSITO',
+    'EN DEPOSITO ESPERANDO CONTENEDOR': 'DEPOSITO',
     'PAQUETE CARGADO EN CONTENEDOR': 'CARGADO',
     'CONTENEDOR EN CAMINO A CUBA': 'EN_CAMINO',
     'CONTENEDOR ARRIBO A PUERTO MARIEL (CUBA)': 'ARRIBO_PUERTO',
@@ -17,7 +17,7 @@ export const mapEstadoToStep = (estado: string): string => {
     'Contenedor abierto - Rayos X': 'PROCESO_RAYOS_X',
     'Contenedor abierto - Unidad canina': 'PROCESO_CANINA',
     'Proceso de desagrupe': 'PROCESO_DESAGRUPE',
-    'Próximo a entrega': 'PROXIMO_ENTREGA',
+    'Proximo a entrega': 'PROXIMO_ENTREGA',
   };
 
   return mapping[normalized] || 'DEPOSITO';
