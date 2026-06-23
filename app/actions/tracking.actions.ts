@@ -1,6 +1,6 @@
 'use server';
 
-import { serializeShipment } from '@/lib/serializaerShipment';
+import { serializeShipment } from '@/lib/serializerShipment';
 import { findShipmentBySaleNumber } from '@/lib/repositories/shipment.repository';
 
 export async function searchTracking(prevState: any, formData: FormData) {
