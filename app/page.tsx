@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
-import { searchTracking } from './tracking/actions';
+import { searchTracking } from './actions/tracking.actions';
 import { TrackingForm } from '@/components/tracking/TrackingForm';
 import TrackingStepper from '@/components/tracking/TrackingStepper';
 import { mapEstadoToStep } from '@/lib/trackingStatusMapper';
@@ -20,7 +20,12 @@ export default function Home() {
 
         {state?.shipment && <TrackingStepper estado={mapEstadoToStep(state.shipment.estado)} />}
 
-        {state?.error && <p className="text-red-500">¡Ocurrió un error al buscar los datos del envio! Si el problema persiste pongase en contacto con nosotros.</p>}
+        {state?.error && (
+          <p className="text-red-500">
+            ¡Ocurrió un error al buscar los datos del envio! Si el problema persiste pongase en
+            contacto con nosotros.
+          </p>
+        )}
       </div>
     </main>
   );
