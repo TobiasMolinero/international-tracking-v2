@@ -13,6 +13,9 @@ export default function EnviosTable({ shipments }: EnviosTableProps) {
       <table className="min-w-full text-sm">
         <thead className="bg-gray-100">
           <tr>
+            <th className="px-4 py-3 text-left">
+              <input type="checkbox" className="rounded h-5 w-5 cursor-pointer" />
+            </th>
             <th className="px-4 py-3 text-left">Nro. Venta</th>
             <th className="px-4 py-3 text-left">Fecha Venta</th>
             <th className="px-4 py-3 text-left">Estado</th>
@@ -28,6 +31,10 @@ export default function EnviosTable({ shipments }: EnviosTableProps) {
         <tbody>
           {shipments.map((shipment) => (
             <tr key={shipment.nro_venta} className="border-t hover:bg-gray-50">
+              <td className="px-4 py-3 text-left">
+                <input type="checkbox" className="rounded h-5 w-5 cursor-pointer" />
+              </td>
+
               <td className="px-4 py-3">{shipment.nro_venta}</td>
 
               <td className="px-4 py-3">{shipment.fecha_venta}</td>
