@@ -33,7 +33,7 @@ export default async function AdminPage({ searchParams }: PageProps) {
 
       <EnviosTable shipments={result.shipments} />
 
-      <Paginator currentPage={page} totalPages={result.totalPages} />
+      <Paginator currentPage={page} totalPages={result.totalPages} search={search} />
     </main>
   );
 }

@@ -38,6 +38,24 @@ export async function getShipments({
             },
           },
           {
+            estado: {
+              $regex: search,
+              $options: 'i',
+            },
+          },
+          {
+            hbl: {
+              $regex: search,
+              $options: 'i',
+            },
+          },
+          {
+            contenedor_guia: {
+              $regex: search,
+              $options: 'i',
+            },
+          },
+          {
             nombre_consignatario: {
               $regex: search,
               $options: 'i',
