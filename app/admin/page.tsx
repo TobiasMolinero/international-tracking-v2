@@ -1,10 +1,5 @@
-// app/admin/page.tsx
-
-import EnviosTable from '@/components/admin/EnviosTable';
-import Paginator from '@/components/admin/Paginator';
-
 import { getShipmentsForAdmin } from '@/app/actions/admin.actions';
-import SearchBar from '@/components/admin/SearchBar';
+import AdminContent from '@/components/admin/AdminContent';
 
 interface PageProps {
   searchParams: Promise<{
@@ -25,15 +20,18 @@ export default async function AdminPage({ searchParams }: PageProps) {
     search,
   });
 
+  // console.log(result.shipments);
+
   return (
     <main className="space-y-6 px-4 py-6 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold">Administración de envíos</h1>
 
-      <SearchBar defaultValue={search} />
-
-      <EnviosTable shipments={result.shipments} />
-
-      <Paginator currentPage={page} totalPages={result.totalPages} search={search} />
+      <AdminContent
+        shipments={result.shipments}
+        currentPage={page}
+        totalPages={result.totalPages}
+        search={search}
+      />
     </main>
   );
 }
