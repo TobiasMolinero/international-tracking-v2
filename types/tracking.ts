@@ -1,4 +1,5 @@
 export type Shipment = {
+  _id: ShipmentId;
   nro_venta: string;
   hbl: string;
   estado: string;
@@ -9,3 +10,5 @@ export type Shipment = {
   carnet_identidad: string;
   modelo?: string;
 };
+
+export type ShipmentId = string;

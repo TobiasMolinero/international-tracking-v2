@@ -6,7 +6,6 @@ import { findShipmentBySaleNumber } from '@/lib/repositories/shipment.repository
 export async function searchTracking(prevState: any, formData: FormData) {
   const code = formData.get('trackingNumber')?.toString();
 
-  // validación básica
   if (!code) {
     throw new Error('Código requerido');
   }

@@ -18,8 +18,6 @@ export async function getShipmentsForAdmin({
     search,
   });
 
-  console.log('result', result);
-
   return {
     ...result,
     shipments: result.shipments.map(serializeShipment),
