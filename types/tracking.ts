@@ -12,3 +12,5 @@ export type Shipment = {
 };
 
 export type ShipmentId = string;
+
+export type BulkAction = 'update' | 'delete' | null;

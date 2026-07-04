@@ -3,9 +3,10 @@
 import SearchBar from './SearchBar';
 import EnviosTable from './EnviosTable';
 import Paginator from './Paginator';
+import ToolBar from './ToolBar';
 import { useMemo, useState } from 'react';
 
-import type { Shipment, ShipmentId } from '@/types/tracking';
+import type { Shipment, ShipmentId, BulkAction } from '@/types/tracking';
 
 interface AdminContentProps {
   shipments: Shipment[];
@@ -20,12 +21,12 @@ export default function AdminContent({
   totalPages,
   search,
 }: AdminContentProps) {
-  const [selectedShipments, setSelectedShipments] = useState<Set<ShipmentId>>(new Set());   
+  const [selectedShipments, setSelectedShipments] = useState<Set<ShipmentId>>(new Set());
+  const [bulkAction, setBulkAction] = useState<BulkAction>(null);
 
   const allSelected = useMemo(() => {
     return (
-      shipments.length > 0 &&
-      shipments.every((shipment) => selectedShipments.has(shipment._id))
+      shipments.length > 0 && shipments.every((shipment) => selectedShipments.has(shipment._id))
     );
   }, [shipments, selectedShipments]);
 
@@ -52,9 +53,26 @@ export default function AdminContent({
     setSelectedShipments(new Set(shipments.map((shipment) => shipment._id)));
   };
 
+  const handleUpdateSelected = () => {
+    console.log(Array.from(selectedShipments));
+  };
+
+  const handleDeleteSelected = () => {
+    console.log(Array.from(selectedShipments));
+  };
+
   return (
     <>
       <SearchBar />
+      {selectedShipments.size > 0 && (
+        <ToolBar
+          selectedCount={selectedShipments.size}
+          isLoading={bulkAction !== null}
+          bulkAction={bulkAction}
+          onUpdateSelected={handleUpdateSelected}
+          onDeleteSelected={handleDeleteSelected}
+        />
+      )}
       <EnviosTable
         shipments={shipments}
         selectedShipments={selectedShipments}
