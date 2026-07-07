@@ -1,5 +1,5 @@
 import { Button } from '../modul';
-import { RefreshCw, Trash2 } from 'lucide-react';
+import { RefreshCw, Trash2, PlusCircle } from 'lucide-react';
 
 interface ToolBarProps {
   selectedCount: number;
@@ -24,6 +24,16 @@ export default function ToolBar({
         {selectedCount} elemento{selectedCount !== 1 ? 's' : ''} seleccionado{selectedCount !== 1 ? 's' : ''}
       </span>
       <div className="flex gap-2">
+        <Button          
+          variant="primary"
+          size="md"
+          className="flex items-center gap-2"
+          onClick={() => console.log('crear envio')}
+          disabled={isLoading}
+        >
+          <PlusCircle />
+          Crear envío
+        </Button>
         <Button
           variant="primary"
           size="md"

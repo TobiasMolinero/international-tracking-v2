@@ -54,25 +54,35 @@ export default function AdminContent({
   };
 
   const handleUpdateSelected = () => {
-    console.log(Array.from(selectedShipments));
+    console.log('Actualizando envíos...');
+    setBulkAction('update');
+    setTimeout(() => {
+      console.log('Actualización de envíos completada.');
+      setBulkAction(null);
+      setSelectedShipments(new Set());
+    }, 3000)
   };
 
   const handleDeleteSelected = () => {
-    console.log(Array.from(selectedShipments));
+    console.log('Eliminando envíos...');
+    setBulkAction('delete');
+    setTimeout(() => {
+      console.log('Eliminación de envíos completada.');
+      setBulkAction(null);
+      setSelectedShipments(new Set());
+    }, 3000)
   };
-
+  
   return (
     <>
       <SearchBar />
-      {selectedShipments.size > 0 && (
-        <ToolBar
-          selectedCount={selectedShipments.size}
-          isLoading={bulkAction !== null}
-          bulkAction={bulkAction}
-          onUpdateSelected={handleUpdateSelected}
-          onDeleteSelected={handleDeleteSelected}
-        />
-      )}
+      <ToolBar
+        selectedCount={selectedShipments.size}
+        isLoading={bulkAction !== null}
+        bulkAction={bulkAction}
+        onUpdateSelected={handleUpdateSelected}
+        onDeleteSelected={handleDeleteSelected}
+      />
       <EnviosTable
         shipments={shipments}
         selectedShipments={selectedShipments}
