@@ -7,6 +7,7 @@ import ToolBar from './ToolBar';
 import { useMemo, useState } from 'react';
 
 import type { Shipment, ShipmentId, BulkAction } from '@/types/tracking';
+import { useRouter } from 'next/navigation';
 
 interface AdminContentProps {
   shipments: Shipment[];
@@ -23,6 +24,8 @@ export default function AdminContent({
 }: AdminContentProps) {
   const [selectedShipments, setSelectedShipments] = useState<Set<ShipmentId>>(new Set());
   const [bulkAction, setBulkAction] = useState<BulkAction>(null);
+
+  const router = useRouter();
 
   const allSelected = useMemo(() => {
     return (
@@ -72,6 +75,14 @@ export default function AdminContent({
       setSelectedShipments(new Set());
     }, 3000)
   };
+
+  const handleCreateShipment = () => {
+    router.push('/admin/registrar');
+  }
+
+  const handleEditShipment = (shipmentId: string) => {
+    router.push(`/admin/editar/${shipmentId}`);
+  }
   
   return (
     <>
@@ -80,6 +91,7 @@ export default function AdminContent({
         selectedCount={selectedShipments.size}
         isLoading={bulkAction !== null}
         bulkAction={bulkAction}
+        onCreateShipment={handleCreateShipment}
         onUpdateSelected={handleUpdateSelected}
         onDeleteSelected={handleDeleteSelected}
       />
@@ -89,6 +101,7 @@ export default function AdminContent({
         allSelected={allSelected}
         onToggleShipment={handleToggleShipment}
         onToggleAll={handleToggleAll}
+        onEditShipment={handleEditShipment}
       />
       <Paginator currentPage={currentPage} totalPages={totalPages} search={search} />
     </>

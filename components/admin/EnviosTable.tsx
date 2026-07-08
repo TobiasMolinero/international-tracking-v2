@@ -1,5 +1,6 @@
-import Link from 'next/link';
 import { Shipment, ShipmentId } from '@/types/tracking';
+import { Button } from '../modul';
+import { Edit } from 'lucide-react';
 
 interface EnviosTableProps {
   shipments: Shipment[];
@@ -7,6 +8,7 @@ interface EnviosTableProps {
   allSelected: boolean;
   onToggleShipment: (shipmentId: ShipmentId) => void;
   onToggleAll: () => void;
+  onEditShipment: (shipmentId: ShipmentId) => void;
 }
 
 export default function EnviosTable({
@@ -15,6 +17,7 @@ export default function EnviosTable({
   allSelected,
   onToggleShipment,
   onToggleAll,
+  onEditShipment,
 }: EnviosTableProps) {
   return (
     <div className="overflow-x-auto rounded-lg border">
@@ -70,12 +73,9 @@ export default function EnviosTable({
               <td className="px-4 py-3">{shipment.carnet_identidad}</td>
 
               <td className="px-4 py-3">
-                <Link
-                  href={`/admin/${shipment.nro_venta}`}
-                  className="font-medium text-blue-600 hover:underline"
-                >
-                  Editar
-                </Link>
+                <Button variant="primary" size="sm" onClick={() => onEditShipment(shipment._id)}>
+                  <Edit className="h-4 w-4" />
+                </Button>
               </td>
             </tr>
           ))}

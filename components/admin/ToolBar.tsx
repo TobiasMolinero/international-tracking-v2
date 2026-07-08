@@ -5,6 +5,7 @@ interface ToolBarProps {
   selectedCount: number;
   isLoading: boolean;
   bulkAction: 'update' | 'delete' | null;
+  onCreateShipment: () => void;
   onUpdateSelected: () => void;
   onDeleteSelected: () => void;
 }
@@ -13,6 +14,7 @@ export default function ToolBar({
   selectedCount,
   isLoading,
   bulkAction,
+  onCreateShipment,
   onUpdateSelected,
   onDeleteSelected,
 }: ToolBarProps) {
@@ -28,7 +30,7 @@ export default function ToolBar({
           variant="primary"
           size="md"
           className="flex items-center gap-2"
-          onClick={() => console.log('crear envio')}
+          onClick={onCreateShipment}
           disabled={isLoading}
         >
           <PlusCircle />
