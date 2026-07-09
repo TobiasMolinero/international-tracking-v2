@@ -1,7 +1,12 @@
 import Image from 'next/image';
 import { steps, getCurrentStepIndex } from '@/lib/tracking';
 
-export default function TrackingStepper({ estado }: { estado: string }) {
+interface TrackingStepperProps {
+  estado: string;
+  hold?: boolean;
+}
+
+export default function TrackingStepper({ estado, hold = true }: TrackingStepperProps) {
   const currentStepIndex = getCurrentStepIndex(estado);
 
   return (
@@ -12,6 +17,7 @@ export default function TrackingStepper({ estado }: { estado: string }) {
 
         {steps.map((step, index) => {
           const isCompleted = index <= currentStepIndex;
+          const showHold = hold && step.supportsHold && index === currentStepIndex;
 
           return (
             <div key={step.id} className="contents">
@@ -23,12 +29,22 @@ export default function TrackingStepper({ estado }: { estado: string }) {
                     <p className="text-sm text-gray-600 mt-2">{step.description}</p>
                   </div>
                 )}
+
+                {showHold && (
+                  <div className="flex items-center justify-end h-full">
+                    <span className="rounded-full bg-red-100 px-3 py-1 font-semibold text-2xl text-red-700 border border-red-200 animate-pulse mb-3">
+                      HOLD
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* CENTER (icono + fecha) */}
-              <div className={`flex flex-col items-center ${isCompleted ? 'opacity-100' : 'opacity-30'}`}>
+              <div
+                className={`flex flex-col items-center ${isCompleted ? 'opacity-100' : 'opacity-30'}`}
+              >
                 <div className="bg-blue-50 border border-blue-200 z-10 rounded-full p-2">
-                  <Image src={step.icon} alt="icono" width={50} height={50}/>
+                  <Image src={step.icon} alt="icono" width={50} height={50} />
                 </div>
               </div>
 
@@ -37,7 +53,7 @@ export default function TrackingStepper({ estado }: { estado: string }) {
                 {step.side === 'right' && (
                   <div className={isCompleted ? 'opacity-100' : 'opacity-30'}>
                     <h3 className="text-blue-900 font-semibold tracking-wide">{step.title}</h3>
-                    <p className="text-sm text-gray-600 mt-2">{step.description}</p>
+                    <p className="text-sm text-gray-600 mt-2">{showHold ? step.holdDescription : step.description}</p>
                   </div>
                 )}
               </div>

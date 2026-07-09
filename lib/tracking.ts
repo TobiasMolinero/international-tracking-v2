@@ -1,5 +1,5 @@
 export function getCurrentStepIndex(estado: string) {
-    return steps.findIndex(step => step.key === estado);
+  return steps.findIndex(step => step.key === estado);
 }
 
 export const steps = [
@@ -38,6 +38,8 @@ export const steps = [
     description:
       'Te cuento que el contenedor ya llegó a Cuba y se encuentra actualmente en el puerto de Mariel. A partir de acá comienza el proceso de ingreso y verificación.',
     icon: '/icons/ancla.png',
+    supportsHold: true,
+    holdDescription: 'El proceso de envío de su vehículo se encuentra en pausa temporal mientras se regulariza un saldo pendiente en su cuenta. Una vez resuelto, continuaremos con el envío lo antes posible.',
   },
   {
     id: 5,
