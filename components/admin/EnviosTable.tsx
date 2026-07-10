@@ -8,7 +8,7 @@ interface EnviosTableProps {
   allSelected: boolean;
   onToggleShipment: (shipmentId: ShipmentId) => void;
   onToggleAll: () => void;
-  onEditShipment: (shipmentId: ShipmentId) => void;
+  onEditShipment: (shipmentNumber: string) => void;
 }
 
 export default function EnviosTable({

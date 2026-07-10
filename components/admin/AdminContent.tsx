@@ -80,8 +80,8 @@ export default function AdminContent({
     router.push('/admin/registrar');
   }
 
-  const handleEditShipment = (shipmentId: string) => {
-    router.push(`/admin/editar/${shipmentId}`);
+  const handleEditShipment = (shipmentNumber: string) => {
+    router.push(`/admin/editar/${shipmentNumber}`);
   }
   
   return (
