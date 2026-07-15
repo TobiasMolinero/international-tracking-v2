@@ -1,13 +1,15 @@
 import { z } from 'zod';
 
 export const shipmentFormSchema = z.object({
-  saleNumber: z.string().min(1, 'El número de venta es obligatorio'),
+  _id: z.string().optional(),
+
+  saleNumber: z.string().trim().min(1, 'El número de venta es obligatorio'),
 
   saleDate: z.string().min(1, 'La fecha de venta es obligatoria'),
 
   departureDate: z.string(),
 
-  status: z.string().min(1),
+  status: z.string().min(1, 'Seleccione un estado'),
 
   hbl: z.string(),
 
@@ -20,4 +22,4 @@ export const shipmentFormSchema = z.object({
   hold: z.boolean(),
 });
 
-export type ShipmentFormSchema = z.infer<typeof shipmentFormSchema>;
+export type ShipmentFormData = z.infer<typeof shipmentFormSchema>;

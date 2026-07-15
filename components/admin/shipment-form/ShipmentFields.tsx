@@ -2,10 +2,11 @@
 
 import { UseFormReturn } from 'react-hook-form';
 
-import { Input, Select, Checkbox } from '@/components/modul';
+import { Checkbox, Input, Select } from '@/components/modul';
 
 import { SHIPMENT_STATUSES } from '@/lib/constants/shipment-status';
-import { ShipmentFormData } from '@/types/shipment-form';
+
+import { ShipmentFormData } from './model';
 
 interface ShipmentFieldsProps {
   form: UseFormReturn<ShipmentFormData>;
@@ -18,65 +19,64 @@ export default function ShipmentFields({ form }: ShipmentFieldsProps) {
   } = form;
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-      <Input
-        label="Número de venta"
-        error={errors.saleNumber?.message}
-        {...register('saleNumber')}
-      />
+    <>
+      <input type="hidden" {...register('_id')} />
 
-      <Input
-        label="Fecha de venta"
-        type="date"
-        error={errors.saleDate?.message}
-        {...register('saleDate')}
-      />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Input
+          label="Número de venta"
+          error={errors.saleNumber?.message}
+          {...register('saleNumber')}
+        />
 
-      <Input
-        label="Fecha de salida"
-        type="date"
-        error={errors.departureDate?.message}
-        {...register('departureDate')}
-      />
+        <Input
+          type="date"
+          label="Fecha de venta"
+          error={errors.saleDate?.message}
+          {...register('saleDate')}
+        />
 
-      <Select
-        label="Estado del envío"
-        options={SHIPMENT_STATUSES.map((status) => ({
-          label: status,
-          value: status,
-        }))}
-        error={errors.status?.message}
-        {...register('status')}
-      />
+        <Input
+          type="date"
+          label="Fecha de salida"
+          error={errors.departureDate?.message}
+          {...register('departureDate')}
+        />
 
-      <Input
-        label="HBL"
-        error={errors.hbl?.message}
-        {...register('hbl')}
-      />
+        <Select
+          label="Estado"
+          options={SHIPMENT_STATUSES.map((status) => ({
+            label: status,
+            value: status,
+          }))}
+          error={errors.status?.message}
+          {...register('status')}
+        />
 
-      <Input
-        label="Guía / Contenedor"
-        error={errors.guideContainer?.message}
-        {...register('guideContainer')}
-      />
+        <Input label="HBL" error={errors.hbl?.message} {...register('hbl')} />
 
-      <Input
-        label="Nombre consignatario"
-        error={errors.consigneeName?.message}
-        {...register('consigneeName')}
-      />
+        <Input
+          label="Guía / Contenedor"
+          error={errors.guideContainer?.message}
+          {...register('guideContainer')}
+        />
 
-      <Input
-        label="N° Carnet identidad"
-        error={errors.consigneeIdentity?.message}
-        {...register('consigneeIdentity')}
-      />
+        <Input
+          label="Nombre consignatario"
+          error={errors.consigneeName?.message}
+          {...register('consigneeName')}
+        />
 
-      <Checkbox
-        label="¿Poner en HOLD?"
-        {...register('hold')}
-      />
-    </div>
+        <Input
+          label="N° Identidad"
+          error={errors.consigneeIdentity?.message}
+          {...register('consigneeIdentity')}
+        />
+
+        <div className="md:col-span-2">
+          <Checkbox label="Poner envío en HOLD" {...register('hold')} />
+        </div>
+      </div>
+    </>
   );
 }
