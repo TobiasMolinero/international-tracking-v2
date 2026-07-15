@@ -18,9 +18,19 @@ export default function Home() {
 
         {state?.shipment && <TrackingData shipmentData={state.shipment} />}
 
-        {state?.shipment && <TrackingStepper estado={mapEstadoToStep(state.shipment.estado)} />}
+        {state?.shipment && (
+          <TrackingStepper
+            estado={mapEstadoToStep(state.shipment.estado)}
+            comentario={state.shipment.comentario}
+          />
+        )}
 
-        {state?.error && <p className="text-red-500">¡Ocurrió un error al buscar los datos del envio! Si el problema persiste pongase en contacto con nosotros.</p>}
+        {state?.error && (
+          <p className="text-red-500">
+            ¡Ocurrió un error al buscar los datos del envio! Si el problema persiste pongase en
+            contacto con nosotros.
+          </p>
+        )}
       </div>
     </main>
   );

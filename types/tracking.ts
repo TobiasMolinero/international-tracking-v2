@@ -8,4 +8,5 @@ export type Shipment = {
   nombre_consignatario: string;
   carnet_identidad: string;
   modelo?: string;
+  comentario?: string;
 };

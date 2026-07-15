@@ -3,10 +3,15 @@ import { steps, getCurrentStepIndex } from '@/lib/tracking';
 
 interface TrackingStepperProps {
   estado: string;
+  comentario?: string;
   hold?: boolean;
 }
 
-export default function TrackingStepper({ estado, hold = true }: TrackingStepperProps) {
+export default function TrackingStepper({
+  estado,
+  comentario,
+  hold = false,
+}: TrackingStepperProps) {
   const currentStepIndex = getCurrentStepIndex(estado);
 
   return (
@@ -27,6 +32,11 @@ export default function TrackingStepper({ estado, hold = true }: TrackingStepper
                   <div className={isCompleted ? 'opacity-100' : 'opacity-30'}>
                     <h3 className="text-blue-900 font-semibold tracking-wide">{step.title}</h3>
                     <p className="text-sm text-gray-600 mt-2">{step.description}</p>
+                    {index === currentStepIndex && comentario ? (
+                      <p className="text-sm text-red-600 mt-1">{comentario}</p>
+                    ) : (
+                      ''
+                    )}
                   </div>
                 )}
 
@@ -53,7 +63,14 @@ export default function TrackingStepper({ estado, hold = true }: TrackingStepper
                 {step.side === 'right' && (
                   <div className={isCompleted ? 'opacity-100' : 'opacity-30'}>
                     <h3 className="text-blue-900 font-semibold tracking-wide">{step.title}</h3>
-                    <p className="text-sm text-gray-600 mt-2">{showHold ? step.holdDescription : step.description}</p>
+                    <p className="text-sm text-gray-600 mt-2">
+                      {showHold ? step.holdDescription : step.description}
+                    </p>
+                    {index === currentStepIndex && comentario ? (
+                      <p className="text-sm text-red-600 mt-1">{comentario}</p>
+                    ) : (
+                      ''
+                    )}
                   </div>
                 )}
               </div>
