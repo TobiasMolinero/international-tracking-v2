@@ -1,6 +1,6 @@
 import { Shipment, ShipmentId } from '@/types/tracking';
 import { Button } from '../modul';
-import { Edit } from 'lucide-react';
+import { Edit, RefreshCw, Trash2 } from 'lucide-react';
 
 interface EnviosTableProps {
   shipments: Shipment[];
@@ -9,6 +9,8 @@ interface EnviosTableProps {
   onToggleShipment: (shipmentId: ShipmentId) => void;
   onToggleAll: () => void;
   onEditShipment: (shipmentNumber: string) => void;
+  onUpdateShipmentStatus: (shipmentNumber: Shipment) => void;
+  onDeleteShipment: (shipmentNumber: Shipment) => void;
 }
 
 export default function EnviosTable({
@@ -18,6 +20,8 @@ export default function EnviosTable({
   onToggleShipment,
   onToggleAll,
   onEditShipment,
+  onUpdateShipmentStatus,
+  onDeleteShipment,
 }: EnviosTableProps) {
   return (
     <div className="overflow-x-auto rounded-lg border">
@@ -72,9 +76,15 @@ export default function EnviosTable({
 
               <td className="px-4 py-3">{shipment.carnet_identidad}</td>
 
-              <td className="px-4 py-3">
+              <td className="px-4 py-3 flex gap-x-1">
                 <Button variant="primary" size="sm" onClick={() => onEditShipment(shipment.nro_venta)}>
                   <Edit className="h-4 w-4" />
+                </Button>
+                <Button variant="primary" size="sm" onClick={() => onUpdateShipmentStatus(shipment)}>
+                  <RefreshCw className="h-4 w-4" />
+                </Button>
+                <Button variant="danger" size="sm" onClick={() => onDeleteShipment(shipment)}>
+                  <Trash2 className="h-4 w-4" />
                 </Button>
               </td>
             </tr>

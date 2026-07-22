@@ -8,6 +8,8 @@ import { useMemo, useState } from 'react';
 
 import type { Shipment, ShipmentId, BulkAction } from '@/types/tracking';
 import { useRouter } from 'next/navigation';
+import { updateShipmentStatusAction } from '@/app/actions/admin/update-shipment-status.action';
+import { deleteShipmentAction } from '@/app/actions/admin/delete-shipment.action';
 
 interface AdminContentProps {
   shipments: Shipment[];
@@ -63,7 +65,7 @@ export default function AdminContent({
       console.log('Actualización de envíos completada.');
       setBulkAction(null);
       setSelectedShipments(new Set());
-    }, 3000)
+    }, 3000);
   };
 
   const handleDeleteSelected = () => {
@@ -73,17 +75,41 @@ export default function AdminContent({
       console.log('Eliminación de envíos completada.');
       setBulkAction(null);
       setSelectedShipments(new Set());
-    }, 3000)
+    }, 3000);
   };
 
   const handleCreateShipment = () => {
     router.push('/admin/registrar');
-  }
+  };
 
   const handleEditShipment = (shipmentNumber: string) => {
     router.push(`/admin/editar/${shipmentNumber}`);
-  }
-  
+  };
+
+  const handleUpdateShipmentStatus = async (shipment: Shipment) => {
+    const result = await updateShipmentStatusAction({
+      id: shipment._id,
+      fecha_venta: shipment.fecha_venta,
+      hold: shipment.hold,
+    });
+
+    if (!result.success) {
+      alert(result.message);
+    }
+  };
+
+  const handleDeleteShipment = async (shipment: Shipment) => {
+    if (!confirm(`¿Eliminar el envío ${shipment.nro_venta}?`)) {
+      return;
+    }
+
+    const result = await deleteShipmentAction(shipment._id);
+
+    if (!result.success) {
+      alert(result.message);
+    }
+  };
+
   return (
     <>
       <SearchBar />
@@ -102,6 +128,8 @@ export default function AdminContent({
         onToggleShipment={handleToggleShipment}
         onToggleAll={handleToggleAll}
         onEditShipment={handleEditShipment}
+        onUpdateShipmentStatus={handleUpdateShipmentStatus}
+        onDeleteShipment={handleDeleteShipment}
       />
       <Paginator currentPage={currentPage} totalPages={totalPages} search={search} />
     </>
