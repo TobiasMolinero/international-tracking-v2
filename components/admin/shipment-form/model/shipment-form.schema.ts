@@ -3,21 +3,23 @@ import { z } from 'zod';
 export const shipmentFormSchema = z.object({
   _id: z.string().optional(),
 
-  saleNumber: z.string().trim().min(1, 'El número de venta es obligatorio'),
+  nro_venta: z.string().trim().min(1, 'El número de venta es obligatorio'),
 
-  saleDate: z.string().min(1, 'La fecha de venta es obligatoria'),
+  fecha_venta: z.string().min(1, 'La fecha de venta es obligatoria'),
 
-  departureDate: z.string(),
+  fecha_envio: z.string(),
 
-  status: z.string().min(1, 'Seleccione un estado'),
+  estado: z.string().min(1, 'Seleccione un estado'),
 
   hbl: z.string(),
 
-  guideContainer: z.string(),
+  contenedor_guia: z.string(),
 
-  consigneeName: z.string(),
+  nombre_consignatario: z.string(),
 
-  consigneeIdentity: z.string(),
+  carnet_identidad: z.string(),
+
+  comentario: z.string(),
 
   hold: z.boolean(),
 });

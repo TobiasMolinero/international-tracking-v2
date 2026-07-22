@@ -1,6 +1,6 @@
 'use client';
 
-import { UseFormReturn } from 'react-hook-form';
+import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
 
 import { Checkbox, Input, Select } from '@/components/modul';
 
@@ -9,74 +9,80 @@ import { SHIPMENT_STATUSES } from '@/lib/constants/shipment-status';
 import { ShipmentFormData } from './model';
 
 interface ShipmentFieldsProps {
-  form: UseFormReturn<ShipmentFormData>;
+  register: UseFormRegister<ShipmentFormData>;
+  control: Control<ShipmentFormData>;
+  errors: FieldErrors<ShipmentFormData>;
 }
 
-export default function ShipmentFields({ form }: ShipmentFieldsProps) {
-  const {
-    register,
-    formState: { errors },
-  } = form;
-
+export default function ShipmentFields({ register, control, errors }: ShipmentFieldsProps) {
   return (
-    <>
-      <input type="hidden" {...register('_id')} />
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <Input label="Número de venta" {...register('nro_venta')} error={errors.nro_venta?.message} />
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Input
-          label="Número de venta"
-          error={errors.saleNumber?.message}
-          {...register('saleNumber')}
-        />
+      <Input
+        type="date"
+        label="Fecha de venta"
+        {...register('fecha_venta')}
+        error={errors.fecha_venta?.message}
+      />
 
-        <Input
-          type="date"
-          label="Fecha de venta"
-          error={errors.saleDate?.message}
-          {...register('saleDate')}
-        />
+      <Input
+        type="date"
+        label="Fecha de salida"
+        {...register('fecha_envio')}
+        error={errors.fecha_envio?.message}
+      />
 
-        <Input
-          type="date"
-          label="Fecha de salida"
-          error={errors.departureDate?.message}
-          {...register('departureDate')}
-        />
+      <Controller
+        control={control}
+        name="estado"
+        render={({ field }) => (
+          <Select
+            label="Estado"
+            value={field.value}
+            onChange={field.onChange}
+            options={SHIPMENT_STATUSES.map((status) => ({
+              label: status,
+              value: status,
+            }))}
+            error={errors.estado?.message}
+          />
+        )}
+      />
 
-        <Select
-          label="Estado"
-          options={SHIPMENT_STATUSES.map((status) => ({
-            label: status,
-            value: status,
-          }))}
-          error={errors.status?.message}
-          {...register('status')}
-        />
+      <Input label="HBL" {...register('hbl')} error={errors.hbl?.message} />
 
-        <Input label="HBL" error={errors.hbl?.message} {...register('hbl')} />
+      <Input
+        label="Guía / Contenedor"
+        {...register('contenedor_guia')}
+        error={errors.contenedor_guia?.message}
+      />
 
-        <Input
-          label="Guía / Contenedor"
-          error={errors.guideContainer?.message}
-          {...register('guideContainer')}
-        />
+      <Input
+        label="Nombre consignatario"
+        {...register('nombre_consignatario')}
+        error={errors.nombre_consignatario?.message}
+      />
 
-        <Input
-          label="Nombre consignatario"
-          error={errors.consigneeName?.message}
-          {...register('consigneeName')}
-        />
+      <Input
+        label="N° Carnet de identidad"
+        {...register('carnet_identidad')}
+        error={errors.carnet_identidad?.message}
+      />
 
-        <Input
-          label="N° Identidad"
-          error={errors.consigneeIdentity?.message}
-          {...register('consigneeIdentity')}
-        />
+      <Input
+        label="Comentario"
+        {...register('comentario')}
+        error={errors.comentario?.message}
+      />
 
-        <div className="md:col-span-2">
-          <Checkbox label="Poner envío en HOLD" {...register('hold')} />
-        </div>
-      </div>
-    </>
+      <Controller
+        control={control}
+        name="hold"
+        render={({ field }) => (
+          <Checkbox label="Poner en HOLD" checked={field.value} onChange={field.onChange} />
+        )}
+      />
+    </div>
   );
 }

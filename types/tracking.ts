@@ -9,6 +9,8 @@ export type Shipment = {
   nombre_consignatario: string;
   carnet_identidad: string;
   modelo?: string;
+  hold: boolean;
+  comentario: string;
 };
 
 export type ShipmentId = string;

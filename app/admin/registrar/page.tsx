@@ -1,22 +1,12 @@
-import { ShipmentFormData } from "@/types/shipment-form";
-import { ShipmentPage, ShipmentForm } from '@/components/admin/shipment-form/index';
+import ShipmentForm from '@/components/admin/shipment-form/ShipmentForm';
+import ShipmentPage from '@/components/admin/shipment-form/ShipmentPage';
 
-const handleSubmit = async (
-    values: ShipmentFormData
-) => {
+import { createShipmentAction } from '@/app/actions/admin/create-shipment.action';
 
-    await createShipment(values);
-
-    redirect('/admin');
-};
-
-return (
+export default function RegisterShipmentPage() {
+  return (
     <ShipmentPage title="Registrar envío">
-
-        <ShipmentForm
-            submitLabel="Registrar envío"
-            onSubmit={handleSubmit}
-        />
-
+      <ShipmentForm action={createShipmentAction} />
     </ShipmentPage>
-);
+  );
+}

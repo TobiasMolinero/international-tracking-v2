@@ -1,25 +1,22 @@
 'use client';
 
+import { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { Modal } from '@/components/modul';
-
+import Modal from '@/components/ui/Modal';
 import ShipmentContainer from './ShipmentContainer';
 
 interface ShipmentModalProps {
   title: string;
-  description?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-export default function ShipmentModal({ title, description, children }: ShipmentModalProps) {
+export default function ShipmentModal({ title, children }: ShipmentModalProps) {
   const router = useRouter();
 
   return (
-    <Modal open size="lg" onClose={() => router.back()}>
-      <ShipmentContainer title={title} description={description} closeAction={() => router.back()}>
-        {children}
-      </ShipmentContainer>
+    <Modal open title={title} onClose={() => router.back()}>
+      <ShipmentContainer title={title}>{children}</ShipmentContainer>
     </Modal>
   );
 }

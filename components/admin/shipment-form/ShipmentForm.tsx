@@ -1,78 +1,105 @@
 'use client';
 
-import { useEffect, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import ShipmentFields from './ShipmentFields';
 
 import { Button } from '@/components/modul';
 
-import ShipmentFields from './ShipmentFields';
-import { shipmentFormDefaultValues } from './model/shipment-form.default-values';
-import { shipmentFormSchema, ShipmentFormData } from './model/shipment-form.schema';
-
-import { ShipmentFormAction } from '@/app/actions/admin';
+import {
+  ShipmentFormAction,
+  ShipmentFormData,
+  // ShipmentFormErrors,
+  shipmentFormDefaultValues,
+  shipmentFormSchema,
+} from './model';
 
 interface ShipmentFormProps {
   action: ShipmentFormAction;
-
-  defaultValues?: Partial<ShipmentFormData>;
-
-  submitLabel: string;
-
-  submittingLabel: string;
+  defaultValues?: ShipmentFormData;
 }
 
 export default function ShipmentForm({
   action,
-  defaultValues,
-  submitLabel,
-  submittingLabel,
+  defaultValues = shipmentFormDefaultValues,
 }: ShipmentFormProps) {
+  const router = useRouter();
+
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<ShipmentFormData>({
+  const [serverError, setServerError] = useState<string>();
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors },
+    reset,
+  } = useForm<ShipmentFormData>({
     resolver: zodResolver(shipmentFormSchema),
-    defaultValues: {
-      ...shipmentFormDefaultValues,
-      ...defaultValues,
-    },
+    defaultValues,
   });
 
   useEffect(() => {
-    form.reset({
-      ...shipmentFormDefaultValues,
-      ...defaultValues,
-    });
-  }, [defaultValues, form]);
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
-  const handleSubmit = form.handleSubmit((values) => {
+  const onSubmit = (values: ShipmentFormData) => {
+    setServerError(undefined);
+
     startTransition(async () => {
       const result = await action(values);
 
       if (!result.success) {
         if (result.errors) {
           Object.entries(result.errors).forEach(([field, message]) => {
-            form.setError(field as keyof ShipmentFormData, {
+            if (!message) return;
+
+            setError(field as keyof ShipmentFormData, {
+              type: 'server',
               message,
             });
           });
         }
 
+        if (result.message) {
+          setServerError(result.message);
+        }
+
         return;
       }
 
-      form.reset(shipmentFormDefaultValues);
+      router.back();
     });
-  });
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <ShipmentFields form={form} />
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <ShipmentFields register={register} control={control} errors={errors} />
 
-      <div className="flex justify-end">
+      {serverError && (
+        <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          {serverError}
+        </div>
+      )}
+
+      <div className="flex justify-end gap-3">
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={() => router.back()}
+          disabled={isPending}
+        >
+          Cancelar
+        </Button>
+
         <Button type="submit" variant="primary" disabled={isPending}>
-          {isPending ? submittingLabel : submitLabel}
+          {isPending ? 'Guardando...' : 'Guardar'}
         </Button>
       </div>
     </form>

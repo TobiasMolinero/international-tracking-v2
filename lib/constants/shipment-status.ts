@@ -11,4 +11,4 @@ export const SHIPMENT_STATUSES = [
   'Próximo a entrega',
 ] as const;
 
-export const DEFAULT_SHIPMENT_STATUS = SHIPMENT_STATUSES[0]; 
+export const DEFAULT_SHIPMENT_STATUS = SHIPMENT_STATUSES[0];

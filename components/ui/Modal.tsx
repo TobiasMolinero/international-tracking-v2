@@ -1,48 +1,19 @@
 'use client';
 
-import * as React from 'react';
+import { ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import clsx from 'clsx';
+import { X } from 'lucide-react';
 
 interface ModalProps {
   open: boolean;
-  children: React.ReactNode;
-  footer?: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  closeOnOverlayClick?: boolean;
-  closeOnEsc?: boolean;
+  title?: string;
+  children: ReactNode;
   onClose: () => void;
 }
 
-const sizes = {
-  sm: 'max-w-md',
-  md: 'max-w-2xl',
-  lg: 'max-w-4xl',
-  xl: 'max-w-6xl',
-};
-
-export function Modal({
-  open,
-  children,
-  footer,
-  size = 'md',
-  closeOnOverlayClick = true,
-  closeOnEsc = true,
-  onClose,
-}: ModalProps) {
-  React.useEffect(() => {
+export default function Modal({ open, title, children, onClose }: ModalProps) {
+  useEffect(() => {
     if (!open) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [open]);
-
-  React.useEffect(() => {
-    if (!open || !closeOnEsc) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -50,46 +21,44 @@ export function Modal({
       }
     };
 
+    document.body.style.overflow = 'hidden';
+
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
+      document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [open, closeOnEsc, onClose]);
+  }, [open, onClose]);
 
-  if (!open) return null;
-
-  if (typeof document === 'undefined') return null;
+  if (!open || typeof document === 'undefined') {
+    return null;
+  }
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      onClick={onClose}
     >
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-[2px]"
-        onClick={() => {
-          if (closeOnOverlayClick) {
-            onClose();
-          }
-        }}
-      />
-
-      <div
-        className={clsx(
-          'relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-lg bg-white shadow-xl',
-          sizes[size]
-        )}
+        className="relative w-full max-w-3xl rounded-lg bg-white shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex-1 overflow-y-auto">{children}</div>
+        <div className="flex items-center justify-between border-b px-6 py-4">
+          <h2 className="text-lg font-semibold">{title}</h2>
 
-        {footer && <div className="border-t bg-gray-50 px-6 py-4">{footer}</div>}
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded p-1 transition hover:bg-gray-100"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="p-6">{children}</div>
       </div>
     </div>,
     document.body
   );
 }
-
-Modal.displayName = 'Modal';

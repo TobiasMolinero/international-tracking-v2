@@ -73,7 +73,7 @@ export default function EnviosTable({
               <td className="px-4 py-3">{shipment.carnet_identidad}</td>
 
               <td className="px-4 py-3">
-                <Button variant="primary" size="sm" onClick={() => onEditShipment(shipment._id)}>
+                <Button variant="primary" size="sm" onClick={() => onEditShipment(shipment.nro_venta)}>
                   <Edit className="h-4 w-4" />
                 </Button>
               </td>
