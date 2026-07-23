@@ -10,6 +10,8 @@ import type { Shipment, ShipmentId, BulkAction } from '@/types/tracking';
 import { useRouter } from 'next/navigation';
 import { updateShipmentStatusAction } from '@/app/actions/admin/update-shipment-status.action';
 import { deleteShipmentAction } from '@/app/actions/admin/delete-shipment.action';
+import { updateShipmentsStatusAction } from '@/app/actions/admin/update-shipments-status.action';
+import { deleteShipmentsAction } from '@/app/actions/admin/delete-shipments.action';
 
 interface AdminContentProps {
   shipments: Shipment[];
@@ -58,24 +60,51 @@ export default function AdminContent({
     setSelectedShipments(new Set(shipments.map((shipment) => shipment._id)));
   };
 
-  const handleUpdateSelected = () => {
-    console.log('Actualizando envíos...');
-    setBulkAction('update');
-    setTimeout(() => {
-      console.log('Actualización de envíos completada.');
-      setBulkAction(null);
-      setSelectedShipments(new Set());
-    }, 3000);
+  const getSelectedShipments = () => {
+    return shipments.filter((shipment) => selectedShipments.has(shipment._id));
   };
 
-  const handleDeleteSelected = () => {
-    console.log('Eliminando envíos...');
+  const clearSelection = () => {
+    setBulkAction(null);
+    setSelectedShipments(new Set());
+  };
+
+  const handleUpdateSelected = async () => {
+    setBulkAction('update');
+
+    const selected = getSelectedShipments();
+
+    const result = await updateShipmentsStatusAction(
+      selected.map((shipment) => ({
+        _id: shipment._id,
+        fecha_venta: shipment.fecha_venta,
+        hold: shipment.hold,
+      }))
+    );
+
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+
+    clearSelection();
+  };
+
+  const handleDeleteSelected = async () => {
     setBulkAction('delete');
-    setTimeout(() => {
-      console.log('Eliminación de envíos completada.');
-      setBulkAction(null);
-      setSelectedShipments(new Set());
-    }, 3000);
+
+    const selected = getSelectedShipments();
+
+    const result = await deleteShipmentsAction(
+      selected.map((shipment) => shipment._id)
+    );
+
+    if(!result.success) {
+      alert(result.message);
+      return;
+    }
+
+    clearSelection();
   };
 
   const handleCreateShipment = () => {
