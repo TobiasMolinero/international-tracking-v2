@@ -92,13 +92,37 @@ export async function getShipments({
   const totalDocuments = await collection.countDocuments(filter);
 
   const shipments = await collection
-    .find(filter)
-    .sort({
-      fecha_venta: -1,
-    })
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .toArray();
+  .aggregate([
+    {
+      $match: filter,
+    },
+    {
+      $addFields: {
+        nroVentaNumber: {
+          $toInt: {
+            $arrayElemAt: [
+              {
+                $split: ['$nro_venta', '-'],
+              },
+              1,
+            ],
+          },
+        },
+      },
+    },
+    {
+      $sort: {
+        nroVentaNumber: -1,
+      },
+    },
+    {
+      $skip: (page - 1) * limit,
+    },
+    {
+      $limit: limit,
+    },
+  ])
+  .toArray();
 
   return {
     shipments,
