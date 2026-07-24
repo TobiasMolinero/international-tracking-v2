@@ -23,7 +23,7 @@ export default async function AdminPage({ searchParams }: PageProps) {
   // console.log(result.shipments);
 
   return (
-    <main className="space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+    <main className="space-y-6 px-4 py-4 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold">Administración de envíos</h1>
 
       <AdminContent

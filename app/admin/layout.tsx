@@ -1,3 +1,5 @@
+import Header from "@/components/admin/Header";
+
 export default function AdminLayout({
   children,
   modal,
@@ -7,6 +9,7 @@ export default function AdminLayout({
 }) {
   return (
     <>
+      <Header />
       {children}
       {modal}
     </>
