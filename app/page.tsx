@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
-import { searchTracking } from './tracking/actions';
+import { searchTracking } from './actions/tracking.actions';
 import { TrackingForm } from '@/components/tracking/TrackingForm';
 import TrackingStepper from '@/components/tracking/TrackingStepper';
 import { mapEstadoToStep } from '@/lib/trackingStatusMapper';

@@ -1,6 +1,7 @@
 import { Shipment } from "@/types/tracking";
 
 export const serializeShipment = (doc: any): Shipment => ({
+  _id: doc._id?.toString() ?? '',
   nro_venta: doc.nro_venta ?? '',
   hbl: doc.hbl ?? '',
   estado: doc.estado ?? '',
@@ -10,4 +11,5 @@ export const serializeShipment = (doc: any): Shipment => ({
   nombre_consignatario: doc.nombre_consignatario ?? '',
   carnet_identidad: doc.carnet_identidad ?? '',
   comentario: doc.comentario ?? '',
+  hold: doc.hold ?? false,
 });
