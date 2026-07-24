@@ -4,7 +4,7 @@ export const SHIPMENT_STATUSES = [
   'CONTENEDOR EN CAMINO A CUBA',
   'CONTENEDOR ARRIBO A PUERTO MARIEL (CUBA)',
   'TRANSPORTE DE PUERTO MARIEL A ADUANA',
-  'INGRESO A ADUANA CUBA',
+  'INGRESO A ADUANA DE CUBA',
   'Contenedor abierto - Rayos X',
   'Contenedor abierto - Unidad canina',
   'Proceso de desagrupe',
