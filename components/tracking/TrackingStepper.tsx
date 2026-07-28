@@ -22,7 +22,7 @@ export default function TrackingStepper({
 
         {steps.map((step, index) => {
           const isCompleted = index <= currentStepIndex;
-          const showHold = hold && step.supportsHold && index === currentStepIndex;
+          const showHold = hold && step.supportsHold;
 
           return (
             <div key={step.id} className="contents">

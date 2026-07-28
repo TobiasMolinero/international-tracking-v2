@@ -22,6 +22,7 @@ export default function Home() {
           <TrackingStepper
             estado={mapEstadoToStep(state.shipment.estado)}
             comentario={state.shipment.comentario}
+            hold={state.shipment.hold}
           />
         )}
 
