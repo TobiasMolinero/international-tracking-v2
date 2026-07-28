@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "preview": "pnpm run build && pnpm run start"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
