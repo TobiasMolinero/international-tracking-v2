@@ -9,10 +9,10 @@ const STATUS_RANGES = [
   { min: 21, max: 51, status: 'CONTENEDOR ARRIBÓ A PUERTO MARIEL (CUBA)' },
   { min: 52, max: 62, status: 'TRANSPORTE DE PUERTO MARIEL A ADUANA' },
   { min: 63, max: 73, status: 'INGRESO A ADUANA' },
-  { min: 74, max: 80, status: 'CONTENEDOR ABIERTO - RAYOS X' },
-  { min: 81, max: 86, status: 'CONTENEDOR ABIERTO - UNIDAD CANINA' },
-  { min: 87, max: 96, status: 'PROCESO DE DESAGRUPE' },
-  { min: 97, max: Infinity, status: 'PRÓXIMO A ENTREGA' },
+  { min: 74, max: 80, status: 'Contenedor abierto - Rayos X' },
+  { min: 81, max: 86, status: 'Contenedor abierto - Unidad canina' },
+  { min: 87, max: 96, status: 'Proceso de desagrupe' },
+  { min: 97, max: Infinity, status: 'Próximo a entrega' },
 ] as const;
 
 interface ShipmentStatusInput {
