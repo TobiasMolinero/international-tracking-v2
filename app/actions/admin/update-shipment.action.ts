@@ -61,8 +61,6 @@ export async function updateShipmentAction(values: ShipmentFormData): Promise<Sh
       message: 'Envío actualizado correctamente.',
     };
   } catch (error) {
-    console.error(error);
-
     return {
       success: false,
       message: 'Ocurrió un error al actualizar el envío.',

@@ -11,6 +11,9 @@ export type Shipment = {
   modelo?: string;
   hold: boolean;
   comentario: string;
+  updated_status_date: string;
+  fecha_reanudacion: string;
+  reanudado: boolean;
 };
 
 export type ShipmentId = string;

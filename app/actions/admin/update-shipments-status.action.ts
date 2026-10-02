@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { updateShipmentsStatusBySaleDate } from '@/lib/repositories/shipment.repository';
+import { updateShipmentsStatus } from '@/lib/repositories/shipment.repository';
 
 import { ShipmentActionState } from '@/components/admin/shipment-form/model';
 
@@ -10,6 +10,9 @@ interface ShipmentStatusUpdate {
   _id: string;
   fecha_venta: string;
   hold: boolean;
+  fecha_reanudacion: string;
+  reanudado: boolean;
+  estado: string
 }
 
 export async function updateShipmentsStatusAction(
@@ -23,7 +26,7 @@ export async function updateShipmentsStatusAction(
       };
     }
 
-    await updateShipmentsStatusBySaleDate(shipments);
+    await updateShipmentsStatus(shipments);
 
     revalidatePath('/admin');
 
@@ -32,8 +35,6 @@ export async function updateShipmentsStatusAction(
       message: 'Estados actualizados correctamente.',
     };
   } catch (error) {
-    console.error(error);
-
     return {
       success: false,
       message: 'Ocurrió un error al actualizar los estados.',

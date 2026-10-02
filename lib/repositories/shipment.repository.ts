@@ -92,37 +92,37 @@ export async function getShipments({
   const totalDocuments = await collection.countDocuments(filter);
 
   const shipments = await collection
-  .aggregate([
-    {
-      $match: filter,
-    },
-    {
-      $addFields: {
-        nroVentaNumber: {
-          $toInt: {
-            $arrayElemAt: [
-              {
-                $split: ['$nro_venta', '-'],
-              },
-              1,
-            ],
+    .aggregate([
+      {
+        $match: filter,
+      },
+      {
+        $addFields: {
+          nroVentaNumber: {
+            $toInt: {
+              $arrayElemAt: [
+                {
+                  $split: ['$nro_venta', '-'],
+                },
+                1,
+              ],
+            },
           },
         },
       },
-    },
-    {
-      $sort: {
-        nroVentaNumber: -1,
+      {
+        $sort: {
+          nroVentaNumber: -1,
+        },
       },
-    },
-    {
-      $skip: (page - 1) * limit,
-    },
-    {
-      $limit: limit,
-    },
-  ])
-  .toArray();
+      {
+        $skip: (page - 1) * limit,
+      },
+      {
+        $limit: limit,
+      },
+    ])
+    .toArray();
 
   return {
     shipments,
@@ -184,59 +184,85 @@ export async function deleteShipments(ids: string[]) {
    MANUAL STATUS
 ====================================== */
 
-export async function updateShipmentStatus(id: string, estado: string) {
-  return updateShipment(id, {
-    estado,
-  });
-}
+// export async function updateShipmentStatus(id: string, estado: string) {
+//   return updateShipment(id, {
+//     estado,
+//   });
+// }
 
-export async function updateShipmentsStatus(ids: string[], estado: string) {
-  const collection = await getCollection();
+// export async function updateShipmentsStatus(ids: string[], estado: string) {
+//   const collection = await getCollection();
 
-  return collection.updateMany(
-    {
-      _id: {
-        $in: ids.map((id) => new ObjectId(id)),
-      },
-    },
-    {
-      $set: {
-        estado,
-      },
-    }
-  );
-}
+//   return collection.updateMany(
+//     {
+//       _id: {
+//         $in: ids.map((id) => new ObjectId(id)),
+//       },
+//     },
+//     {
+//       $set: {
+//         estado,
+//       },
+//     }
+//   );
+// }
 
 /* ======================================
    AUTO STATUS
 ====================================== */
 
-export async function updateShipmentStatusBySaleDate(
+export async function updateShipmentStatus(
   id: string,
-  shipment: Pick<Shipment, 'fecha_venta' | 'hold'>
+  shipment: Pick<Shipment, 'fecha_venta' | 'hold' | 'fecha_reanudacion' | 'reanudado'>,
+  currentStatus: string
 ) {
+  const newStatus = calculateShipmentStatus(shipment);
+
+  if (newStatus === currentStatus) {
+    return;
+  }
+
   return updateShipment(id, {
-    estado: calculateShipmentStatus(shipment),
+    estado: newStatus,
+    updated_status_date: new Date().toISOString(),
   });
 }
 
-export async function updateShipmentsStatusBySaleDate(
-  shipments: Pick<Shipment, '_id' | 'fecha_venta' | 'hold'>[]
+export async function updateShipmentsStatus(
+  shipments: Pick<
+    Shipment,
+    '_id' | 'estado' | 'fecha_venta' | 'hold' | 'fecha_reanudacion' | 'reanudado'
+  >[]
 ) {
   const collection = await getCollection();
 
-  const operations = shipments.map((shipment) => ({
-    updateOne: {
-      filter: {
-        _id: new ObjectId(shipment._id),
-      },
-      update: {
-        $set: {
-          estado: calculateShipmentStatus(shipment),
+  const operations = shipments
+    .map((shipment) => {
+      const newStatus = calculateShipmentStatus(shipment);
+
+      if (newStatus === shipment.estado) {
+        return null;
+      }
+
+      return {
+        updateOne: {
+          filter: {
+            _id: new ObjectId(shipment._id),
+          },
+          update: {
+            $set: {
+              estado: newStatus,
+              updated_status_date: new Date().toISOString(),
+            },
+          },
         },
-      },
-    },
-  }));
+      };
+    })
+    .filter((operation): operation is NonNullable<typeof operation> => operation !== null);
+
+  if (operations.length === 0) {
+    return;
+  }
 
   return collection.bulkWrite(operations);
 }
