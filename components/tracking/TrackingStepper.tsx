@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { steps, getCurrentStepIndex } from '@/lib/tracking';
+import { steps, getCurrentStepIndex } from '@/lib/tracking-steps';
 
 interface TrackingStepperProps {
   estado: string;

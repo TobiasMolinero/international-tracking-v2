@@ -76,6 +76,21 @@ export default function ShipmentFields({ register, control, errors }: ShipmentFi
         error={errors.comentario?.message}
       />
 
+      <Input
+        type="date"
+        label="Fecha reanudación"
+        {...register('fecha_reanudacion')}
+        error={errors.fecha_reanudacion?.message}
+      />
+
+      <Controller
+        control={control}
+        name="reanudado"
+        render={({ field }) => (
+          <Checkbox label="Reanudado" checked={field.value} onChange={field.onChange} />
+        )}
+      />
+
       <Controller
         control={control}
         name="hold"
@@ -83,6 +98,7 @@ export default function ShipmentFields({ register, control, errors }: ShipmentFi
           <Checkbox label="Poner en HOLD" checked={field.value} onChange={field.onChange} />
         )}
       />
+
     </div>
   );
 }

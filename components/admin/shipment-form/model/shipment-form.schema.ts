@@ -22,6 +22,12 @@ export const shipmentFormSchema = z.object({
   comentario: z.string(),
 
   hold: z.boolean(),
+
+  updated_status_date: z.string(),
+
+  fecha_reanudacion: z.string(),
+
+  reanudado: z.boolean(),
 });
 
 export type ShipmentFormData = z.infer<typeof shipmentFormSchema>;

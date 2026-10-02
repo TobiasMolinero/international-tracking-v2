@@ -79,6 +79,9 @@ export default function AdminContent({
         _id: shipment._id,
         fecha_venta: shipment.fecha_venta,
         hold: shipment.hold,
+        fecha_reanudacion: shipment.fecha_reanudacion,
+        reanudado: shipment.reanudado,
+        estado: shipment.estado
       }))
     );
 
@@ -120,6 +123,9 @@ export default function AdminContent({
       id: shipment._id,
       fecha_venta: shipment.fecha_venta,
       hold: shipment.hold,
+      fecha_reanudacion: shipment.fecha_reanudacion,
+      reanudado: shipment.reanudado,
+      currentStatus: shipment.estado,
     });
 
     if (!result.success) {

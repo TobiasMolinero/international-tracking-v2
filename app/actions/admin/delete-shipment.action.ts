@@ -21,8 +21,6 @@ export async function deleteShipmentAction(
       message: 'Envío eliminado correctamente.',
     };
   } catch (error) {
-    console.error(error);
-
     return {
       success: false,
       message: 'Ocurrió un error al eliminar el envío.',

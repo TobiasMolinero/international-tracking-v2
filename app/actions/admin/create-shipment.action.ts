@@ -56,8 +56,6 @@ export async function createShipmentAction(values: ShipmentFormData): Promise<Sh
       message: 'Envío registrado correctamente.',
     };
   } catch (error) {
-    console.error(error);
-
     return {
       success: false,
       message: 'Ocurrió un error al registrar el envío.',
