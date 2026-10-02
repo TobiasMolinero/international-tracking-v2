@@ -17,4 +17,8 @@ export const shipmentFormDefaultValues: ShipmentFormData = {
   comentario: '',
 
   hold: false,
+
+  updated_status_date: '',
+  fecha_reanudacion: '',
+  reanudado: false,
 };
