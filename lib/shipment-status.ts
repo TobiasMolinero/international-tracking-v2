@@ -3,14 +3,14 @@ import { DEFAULT_SHIPMENT_STATUS } from './constants/shipment-status';
 const HOLD_STATUS = 'CONTENEDOR ARRIBÓ A PUERTO MARIEL (CUBA)';
 
 const PRE_RESTART_STATUS_RANGES = [
-  { min: 1, max: 5, status: 'EN DEPÓSITO ESPERANDO CONTENEDOR' },
+  { min: 0, max: 5, status: 'EN DEPÓSITO ESPERANDO CONTENEDOR' },
   { min: 6, max: 11, status: 'PAQUETE CARGADO EN CONTENEDOR' },
   { min: 12, max: 20, status: 'CONTENEDOR EN CAMINO A CUBA' },
   { min: 21, max: Infinity, status: 'CONTENEDOR ARRIBÓ A PUERTO MARIEL (CUBA)' },
 ];
 
 const POST_RESTART_STATUS_RANGES = [
-  { min: 1, max: 10, status: 'TRANSPORTE DE PUERTO MARIEL A ADUANA' },
+  { min: 0, max: 10, status: 'TRANSPORTE DE PUERTO MARIEL A ADUANA' },
   { min: 11, max: 21, status: 'INGRESO A ADUANA' },
   { min: 22, max: 28, status: 'Contenedor abierto - Rayos X' },
   { min: 29, max: 34, status: 'Contenedor abierto - Unidad canina' },
@@ -44,7 +44,10 @@ export function calculateShipmentStatus({
 
   const ranges = reanudado ? POST_RESTART_STATUS_RANGES : PRE_RESTART_STATUS_RANGES; 
 
+  console.log(diffDays);
+
   const range = ranges.find(({ min, max }) => diffDays >= min && diffDays <= max);
+  console.log(range);
 
   return range?.status ?? DEFAULT_SHIPMENT_STATUS;
 }
