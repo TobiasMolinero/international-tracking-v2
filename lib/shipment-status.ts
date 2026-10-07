@@ -42,12 +42,9 @@ export function calculateShipmentStatus({
     return HOLD_STATUS;
   }
 
-  const ranges = reanudado ? POST_RESTART_STATUS_RANGES : PRE_RESTART_STATUS_RANGES; 
-
-  console.log(diffDays);
+  const ranges = reanudado ? POST_RESTART_STATUS_RANGES : PRE_RESTART_STATUS_RANGES;
 
   const range = ranges.find(({ min, max }) => diffDays >= min && diffDays <= max);
-  console.log(range);
 
   return range?.status ?? DEFAULT_SHIPMENT_STATUS;
 }
