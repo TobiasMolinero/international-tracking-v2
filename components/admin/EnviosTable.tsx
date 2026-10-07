@@ -13,6 +13,14 @@ interface EnviosTableProps {
   onDeleteShipment: (shipmentNumber: Shipment) => void;
 }
 
+function calculateDaysSinceUpdate(updatedStatusDate: string): string {
+  const updatedDate = new Date(updatedStatusDate);
+  const currentDate = new Date();
+  const timeDifference = currentDate.getTime() - updatedDate.getTime();
+  const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
+  return typeof daysDifference === 'number' && !isNaN(daysDifference) ? daysDifference.toString() : '-';
+}
+
 export default function EnviosTable({
   shipments,
   selectedShipments,
@@ -39,11 +47,9 @@ export default function EnviosTable({
             <th className="px-4 py-3 text-left">Nro. Venta</th>
             <th className="px-4 py-3 text-left">Fecha Venta</th>
             <th className="px-4 py-3 text-left">Estado</th>
-            <th className="px-4 py-3 text-left">Fecha Envío</th>
-            <th className="px-4 py-3 text-left">HBL</th>
-            <th className="px-4 py-3 text-left">Guía/Contenedor</th>
-            <th className="px-4 py-3 text-left">Consignatario</th>
-            <th className="px-4 py-3 text-left">Nro. Identidad</th>
+            <th className="px-4 py-3 text-left">Recibe</th>
+            <th className="px-4 py-3 text-left">Reanudación</th>
+            <th className="px-4 py-3 text-left">Seguimiento</th>
             <th className="px-4 py-3 text-left"></th>
           </tr>
         </thead>
@@ -66,15 +72,11 @@ export default function EnviosTable({
 
               <td className="px-4 py-3">{shipment.estado}</td>
 
-              <td className="px-4 py-3">{shipment.fecha_envio ?? '-'}</td>
+              <td className="px-4 py-3">{shipment.nombre_consignatario} · {shipment.carnet_identidad}</td>
 
-              <td className="px-4 py-3">{shipment.hbl ?? '-'}</td>
+              <td className="px-4 py-3">{shipment.reanudado ? 'SI' : 'NO'} · {shipment.fecha_reanudacion}</td>
 
-              <td className="px-4 py-3">{shipment.contenedor_guia ?? '-'}</td>
-
-              <td className="px-4 py-3">{shipment.nombre_consignatario}</td>
-
-              <td className="px-4 py-3">{shipment.carnet_identidad}</td>
+              <td className="px-4 py-3">{shipment.updated_status_date.substring(0, 10)} · {calculateDaysSinceUpdate(shipment.updated_status_date)}</td>
 
               <td className="px-4 py-3 flex gap-x-1">
                 <Button variant="primary" size="sm" onClick={() => onEditShipment(shipment.nro_venta)}>
