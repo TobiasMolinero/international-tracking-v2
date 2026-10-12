@@ -8,6 +8,10 @@ interface Props {
 
 export default function Paginator({ currentPage, totalPages, search }: Props) {
   const buildUrl = (page: number) => {
+    if (page < 1 || page > totalPages) {
+      return '#';
+    }
+
     const params = new URLSearchParams();
 
     params.set('page', page.toString());
@@ -21,7 +25,10 @@ export default function Paginator({ currentPage, totalPages, search }: Props) {
 
   return (
     <div className="flex justify-center items-center gap-4">
-      <Link href={buildUrl(currentPage - 1)} className="rounded border px-4 py-2 cursor-pointer bg-blue-600 text-white hover:bg-blue-700">
+      <Link
+        href={buildUrl(currentPage - 1)}
+        className="rounded border px-4 py-2 cursor-pointer bg-blue-600 text-white hover:bg-blue-700"
+      >
         Anterior
       </Link>
 
@@ -29,7 +36,10 @@ export default function Paginator({ currentPage, totalPages, search }: Props) {
         {currentPage} / {totalPages}
       </span>
 
-      <Link href={buildUrl(currentPage + 1)} className="rounded border px-4 py-2 cursor-pointer bg-blue-600 text-white hover:bg-blue-700">
+      <Link
+        href={buildUrl(currentPage + 1)}
+        className="rounded border px-4 py-2 cursor-pointer bg-blue-600 text-white hover:bg-blue-700"
+      >
         Siguiente
       </Link>
     </div>
