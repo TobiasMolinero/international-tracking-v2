@@ -148,6 +148,7 @@ export default function AdminContent({
   return (
     <>
       <SearchBar />
+      
       <ToolBar
         selectedCount={selectedShipments.size}
         isLoading={bulkAction !== null}
@@ -156,6 +157,9 @@ export default function AdminContent({
         onUpdateSelected={handleUpdateSelected}
         onDeleteSelected={handleDeleteSelected}
       />
+      
+      <Paginator currentPage={currentPage} totalPages={totalPages} search={search} />
+      
       <EnviosTable
         shipments={shipments}
         selectedShipments={selectedShipments}
@@ -166,6 +170,7 @@ export default function AdminContent({
         onUpdateShipmentStatus={handleUpdateShipmentStatus}
         onDeleteShipment={handleDeleteShipment}
       />
+
       <Paginator currentPage={currentPage} totalPages={totalPages} search={search} />
     </>
   );
