@@ -34,6 +34,7 @@ export async function updateShipmentAction(values: ShipmentFormData): Promise<Sh
     const normalizedValues = {
       ...values,
       nro_venta: `v-${values.nro_venta}`,
+      updated_status_date: new Date().toISOString(),
     }
 
     const existingShipment = await findShipmentBySaleNumber(normalizedValues.nro_venta);

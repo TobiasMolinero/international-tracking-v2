@@ -18,7 +18,9 @@ function calculateDaysSinceUpdate(updatedStatusDate: string): string {
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - updatedDate.getTime();
   const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
-  return typeof daysDifference === 'number' && !isNaN(daysDifference) ? daysDifference.toString() : '-';
+  return typeof daysDifference === 'number' && !isNaN(daysDifference)
+    ? daysDifference.toString()
+    : '-';
 }
 
 export default function EnviosTable({
@@ -72,17 +74,32 @@ export default function EnviosTable({
 
               <td className="px-4 py-3">{shipment.estado}</td>
 
-              <td className="px-4 py-3">{shipment.nombre_consignatario} · {shipment.carnet_identidad}</td>
+              <td className="px-4 py-3">
+                {shipment.nombre_consignatario} · {shipment.carnet_identidad}
+              </td>
 
-              <td className="px-4 py-3">{shipment.reanudado ? 'SI' : 'NO'} · {shipment.fecha_reanudacion}</td>
+              <td className="px-4 py-3">
+                {shipment.reanudado ? 'SI' : 'NO'} · {shipment.fecha_reanudacion}
+              </td>
 
-              <td className="px-4 py-3">{shipment.updated_status_date.substring(0, 10)} · {calculateDaysSinceUpdate(shipment.updated_status_date)}</td>
+              <td className="px-4 py-3">
+                {shipment.updated_status_date.substring(0, 10)} ·{' '}
+                {calculateDaysSinceUpdate(shipment.updated_status_date)}
+              </td>
 
               <td className="px-4 py-3 flex gap-x-1">
-                <Button variant="primary" size="sm" onClick={() => onEditShipment(shipment.nro_venta)}>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => onEditShipment(shipment.nro_venta)}
+                >
                   <Edit className="h-4 w-4" />
                 </Button>
-                <Button variant="primary" size="sm" onClick={() => onUpdateShipmentStatus(shipment)}>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => onUpdateShipmentStatus(shipment)}
+                >
                   <RefreshCw className="h-4 w-4" />
                 </Button>
                 <Button variant="danger" size="sm" onClick={() => onDeleteShipment(shipment)}>
