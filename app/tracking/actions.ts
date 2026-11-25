@@ -4,7 +4,7 @@ import clientPromise from '@/lib/mongodb';
 import { serializeShipment } from '@/lib/serializaerShipment';
 
 export async function searchTracking(prevState: any, formData: FormData) {
-  const code = formData.get('trackingNumber')?.toString();
+  const code = formData.get('trackingNumber')?.toString().trim();
 
   // validación básica
   if (!code) {
