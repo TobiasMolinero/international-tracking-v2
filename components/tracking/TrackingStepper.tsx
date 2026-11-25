@@ -40,13 +40,16 @@ export default function TrackingStepper({
                   </div>
                 )}
 
-                {showHold && (
+                {showHold && index === currentStepIndex ? (
                   <div className="flex items-center justify-end h-full">
                     <span className="rounded-full bg-red-100 px-3 py-1 font-semibold text-2xl text-red-700 border border-red-200 animate-pulse mb-3">
                       HOLD
                     </span>
                   </div>
-                )}
+                ) : (
+                  ''
+                )
+              }
               </div>
 
               {/* CENTER (icono + fecha) */}
