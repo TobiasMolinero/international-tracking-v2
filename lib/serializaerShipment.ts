@@ -10,4 +10,5 @@ export const serializeShipment = (doc: any): Shipment => ({
   nombre_consignatario: doc.nombre_consignatario ?? '',
   carnet_identidad: doc.carnet_identidad ?? '',
   comentario: doc.comentario ?? '',
+  hold: doc.hold ?? false,
 });
